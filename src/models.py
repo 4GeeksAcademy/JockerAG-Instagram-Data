@@ -25,6 +25,41 @@ class Address(Base):
     person_id = Column(Integer, ForeignKey('person.id'))
     person = relationship(Person)
 
+class User(Base):
+    __tablename__ = 'user'
+    id = Column(Integer, primary_key=True )
+    user_name = Column(String(20), nullable=False, unique=True)
+    password = Column(String(16), nullable=False)
+    first_name = Column(String(25), nullable=False)
+    last_name = Column(String(50))
+    email = Column(String(50), nullable=False, unique=True)
+
+class Post(Base):
+    __tablename__ = 'post'
+    id = Column(Integer, primary_key=True )
+    user_id = Column(Integer, ForeignKey('user.id'))
+
+class Follower(Base):
+    __tablename__= 'follower'
+    id = Column(Integer, primary_key=True )
+    user_from_id = Column(Integer, ForeignKey('user.id'))
+    user_to_id = Column(Integer, ForeignKey('user.id'))
+
+class Media(Base):
+    __tablename__= 'media'
+    id = Column(Integer, primary_key=True )
+    type = Column(String(30))
+    url = Column(String(200))
+    post_id = Column(Integer, ForeignKey('post.id'))
+
+class Comment(Base):
+    __tablename__= 'comment'
+    id = Column(Integer, primary_key=True )
+    comment_text = Column(String(400))
+    author_id = Column(Integer, ForeignKey('user.id'))
+    post_id = Column(Integer, ForeignKey('post.id'))
+
+
     def to_dict(self):
         return {}
 
